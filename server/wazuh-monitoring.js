@@ -125,7 +125,7 @@ module.exports = function (server, options) {
 	var getConfig = function (callback) {
 		elasticRequest.callWithInternalUser('search',{ index: '.wazuh', type: 'wazuh-configuration'}).then(
 			function (data) {
-				if (data.hits.total > 1) {
+				if (data.hits.total > 0) {
 					callback(data.hits);
 				} else {
 					callback({ 'error': 'no credentials', 'error_code': 1 });
@@ -172,7 +172,7 @@ module.exports = function (server, options) {
 		if(agentsArray.length > 0) {
 			var managerName = agentsArray[0].name;
 			agentsArray.forEach(function (element) {
-				body += '{ "index":  { "_index": "' + todayIndex + '", "_type": "agent" } }\n';
+				body += '{ "index":  { "_index": "' + todayIndex + '", "_type": "wazuh" } }\n';
 				var date = new Date(Date.now()).toISOString();
 				element["@timestamp"] = date;
 				element["host"] = managerName;
@@ -184,9 +184,9 @@ module.exports = function (server, options) {
 			elasticRequest.callWithInternalUser('bulk',
 			{
 				index: todayIndex,
-				type: 'agent',
+				type: 'wazuh',
 				body: body
-			}).then(function () {
+			}).then(function (data) {
 				agentsArray.length = 0;
 			}, function (err) {
 				server.log([blueWazuh, 'Wazuh agents monitoring', 'error'], 'Error inserting agent data into elasticsearch. Bulk request failed.');
