@@ -39,7 +39,6 @@ var goToKibana = function ($location, $window) {
     $window.location.href=$location.absUrl().replace('/wazuh#', '/kibana#');
 }
 
-
 //Routes
 routes.enable();
 routes

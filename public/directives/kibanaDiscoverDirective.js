@@ -167,7 +167,6 @@ require('ui/modules').get('app/wazuh', []).controller('discoverW', function($sco
                     const HitSortFn = Private(PluginsKibanaDiscoverHitSortFnProvider);
                     const queryFilter = Private(FilterBarQueryFilterProvider);
                     const responseHandler = Private(BasicResponseHandlerProvider).handler;
-
                     const filterManager = Private(FilterManagerProvider);
                     $scope.queryDocLinks = documentationLinks.query;
                     $scope.intervalOptions = Private(AggTypesBucketsIntervalOptionsProvider);
